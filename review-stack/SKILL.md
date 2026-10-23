@@ -1,6 +1,6 @@
 ---
 name: review-stack
-description: Review a stacked set of GitHub PRs for the Mule-to-AWS migration using three independent lenses (team standards, claims-vs-code, Mule parity) plus a cross-stack pass. Produces draft reviews only; never edits, commits, pushes, or comments. Use when asked to review a migration PR stack, e.g. /review-stack SI-1542.
+description: Review a stacked set of GitHub PRs for the Mule-to-AWS migration using three independent lenses (team standards, claims-vs-code, Mule parity) plus a cross-stack pass. Produces draft reviews only; never edits, commits, pushes, or comments. Use when asked to review a migration PR stack, e.g. /review-stack PROJ-123.
 ---
 
 # Review a migration PR stack
@@ -9,9 +9,17 @@ Usage: `/review-stack <JIRA-KEY> [--mule <path>] [--bruno <path>] [--out <dir>]`
 
 Arguments: `$ARGUMENTS`
 
+## Local configuration
+
+Replace these placeholders before use:
+- `MULE_APP_PREFIX`: the naming prefix of your Mule application repos
+  (e.g. `acme-api` for repos like `acme-api-loans`).
+- `STANDARDS_SKILL`: the name of your team's coding-standards skill,
+  installed separately under `~/.claude/skills/`.
+
 Defaults when a flag is omitted:
 - `--mule`: look for `../<mule-app-name>` where the app name is the
-  `x-onb-*` project named in PR 1's description. If not found, ask
+  `MULE_APP_PREFIX-*` project named in PR 1's description. If not found, ask
   once, then proceed without it (lens C degrades; say so in the report).
 - `--bruno`: look for a Bruno collection under `../bruno/` matching the
   app name. Same fallback.
@@ -24,7 +32,7 @@ Defaults when a flag is omitted:
 - Do NOT edit any file in a worktree under review. Never run `--fix`,
   `-u`, formatters, or anything that writes to tracked files.
 - Subagents B and C must be launched with read-only tools
-  (no Edit, Write, NotebookEdit). Lens A invokes the `onb-integration`
+  (no Edit, Write, NotebookEdit). Lens A invokes the `STANDARDS_SKILL`
   skill; grant it the same read-only set.
 - Each subagent gets only the inputs listed for it. Do not pass one
   lens's findings to another before the merge step.
@@ -49,7 +57,7 @@ Defaults when a flag is omitted:
 Run lenses A, B, C as three concurrent subagents. Fresh context each.
 
 ### A. Standards
-Invoke the `onb-integration` skill against the worktree, scoped to
+Invoke the `STANDARDS_SKILL` skill against the worktree, scoped to
 files present in the diff. Return every violation with `file:line`,
 the standard it breaks, and a one-line fix.
 
