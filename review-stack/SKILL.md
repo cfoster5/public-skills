@@ -77,6 +77,9 @@ Inputs: the PR description, the diff, shell access to the worktree.
 ### C. Mule parity
 Inputs: the Mule flow XML and DataWeave for the source app, the Bruno
 collection, the diff. Ignore style entirely.
+Do not pass the PR description or title to this subagent. Scope is
+inferred from the Mule source and the diff; the orchestrator reconciles
+against the description at merge. Over-reporting MISSING is expected.
 For every Mule behavior this layer is responsible for (transformations,
 null/empty semantics, defaults, error-to-status mapping, XML namespace
 and element handling, retries/timeouts, logging of sensitive fields):
@@ -96,7 +99,9 @@ Write `<out>/<nn>-review.md`:
    SHOULD-FIX, or NIT. Anything flagged by two or more lenses goes
    first. BLOCKING before SHOULD-FIX before NIT.
 3. Pre-existing / out of scope: issues in touched files this PR did
-   not introduce.
+   not introduce. For each lens C MISSING, check whether the description
+   claims a later layer owns it; if so, record that as a lens B claim to
+   verify in that layer's review, not as a reason to drop the finding.
 4. Lens C coverage table: MATCHED / DIVERGES / MISSING counts.
 
 ## Cross-stack, after all PRs
