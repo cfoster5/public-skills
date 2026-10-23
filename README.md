@@ -14,5 +14,5 @@ ln -s ~/public-skills/review-stack ~/.claude/skills/review-stack
 Reviews a stacked set of GitHub PRs with three read-only lenses plus a cross-stack pass and writes draft reviews. Lens A depends on a separate team-standards skill. After downloading, fill in the two placeholders under **Local configuration** at the top of `SKILL.md`:
 
 ```sh
-sed -i '' -e 's/MULE_APP_PREFIX/your-prefix/g' -e 's/STANDARDS_SKILL/your-standards-skill/g' ~/.claude/skills/review-stack/SKILL.md
+sed -i '' -e 's/MULE_APP_PATTERN/(x|p|s)-yourorg-*/g' -e 's/STANDARDS_SKILL/your-standards-skill/g' ~/.claude/skills/review-stack/SKILL.md
 ```

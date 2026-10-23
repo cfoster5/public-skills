@@ -12,14 +12,15 @@ Arguments: `$ARGUMENTS`
 ## Local configuration
 
 Replace these placeholders before use:
-- `MULE_APP_PREFIX`: the naming prefix of your Mule application repos
-  (e.g. `acme-api` for repos like `acme-api-loans`).
+- `MULE_APP_PATTERN`: the naming pattern of your Mule application repos
+  across API layers (e.g. `(x|p|s)-acme-*` for repos like `x-acme-loans`
+  or `s-acme-sailpoint`).
 - `STANDARDS_SKILL`: the name of your team's coding-standards skill,
   installed separately under `~/.claude/skills/`.
 
 Defaults when a flag is omitted:
 - `--mule`: look for `../<mule-app-name>` where the app name is the
-  `MULE_APP_PREFIX-*` project named in PR 1's description. If not found, ask
+  `MULE_APP_PATTERN` project named in PR 1's description. If not found, ask
   once, then proceed without it (lens C degrades; say so in the report).
 - `--bruno`: look for a Bruno collection under `../bruno/` matching the
   app name. Same fallback.
